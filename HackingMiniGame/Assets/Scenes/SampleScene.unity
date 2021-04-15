@@ -3460,7 +3460,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8beccfb697b292c41bb0b13841d51ca3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Aud: {fileID: 0}
+  Aud: {fileID: 1535761132}
+  sfx:
+  - {fileID: 8300000, guid: 48a878127a6f797468460b14d19c54b0, type: 3}
+  - {fileID: 8300000, guid: 17bdabb1fde3255448de9be84aca93a6, type: 3}
+  - {fileID: 8300000, guid: f3b9242d9e9563848b850871748ad091, type: 3}
+  - {fileID: 8300000, guid: 0f6529c5a4cf56745af54923531e34dd, type: 3}
   buttons:
   - {fileID: 496308956}
   - {fileID: 306122640}

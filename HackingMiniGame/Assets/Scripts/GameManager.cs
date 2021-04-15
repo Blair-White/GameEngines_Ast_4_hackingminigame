@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
     public AudioSource Aud;
+    public AudioClip[] sfx;
     private int sequenceProgress, sequenceStep;
     private int sequenceLengthStart, sequenceLength;
     private int difficulty;
@@ -118,6 +119,7 @@ public class GameManager : MonoBehaviour
                             sequenceStep = 0;
                             sequenceProgress = 0;
                         }
+                        sequenceStep = 0;
                         GameState = GameStates.Sequence;
                         break;
 
@@ -127,7 +129,6 @@ public class GameManager : MonoBehaviour
                         {
                             GameState = GameStates.EnterInput;
                             sequenceStep = 0;
-                            sequenceProgress++;
                         }
 
                         if (!flashing)
@@ -137,6 +138,7 @@ public class GameManager : MonoBehaviour
                             {
                                 flashing = true;
                                 buttons[randomSequence[sequenceStep]].SetActive(true);
+                                PlaySoundOneShot(sfx[randomSequence[sequenceStep]]);
                                 countDelaySequence = 0;
                             }
                         }
@@ -160,15 +162,22 @@ public class GameManager : MonoBehaviour
                         GameState = GameStates.Input;
                         break;
                     case GameStates.Input:
-                        if (inputProgress > sequenceLengthStart + sequenceProgress)
+                        if (inputProgress >= sequenceLengthStart + sequenceProgress)
                             GameState = GameStates.EnterChecking;
                         break;
                     case GameStates.EnterChecking:
+                        if(sequenceProgress <= 3) checks[sequenceProgress].SetActive(true);
                         sequenceProgress++;
+                        inputProgress = 0;
+                       
                         if(sequenceProgress > 3)
                         {
-                            GameState = GameStates.EnterResults;
-                            win = true;
+                            count += Time.deltaTime;
+                            if(count > 2)
+                            {
+                                GameState = GameStates.EnterResults;
+                                win = true;
+                            }    
                         }
                         else
                         {
@@ -220,18 +229,22 @@ public class GameManager : MonoBehaviour
         switch (color)
         {
             case 0:
+                PlaySoundOneShot(sfx[color]);
                 if (CheckPush(0)) inputProgress++;
                 else {FailedPush();}
                 break;
             case 1:
+                PlaySoundOneShot(sfx[color]);
                 if (CheckPush(1)) inputProgress++;
                 else { FailedPush(); }
                 break;
             case 2:
+                PlaySoundOneShot(sfx[color]);
                 if (CheckPush(2)) inputProgress++;
                 else { FailedPush(); }
                 break;
             case 3:
+                PlaySoundOneShot(sfx[color]);
                 if (CheckPush(3)) inputProgress++;
                 else { FailedPush(); }
                 break;
@@ -269,6 +282,6 @@ public class GameManager : MonoBehaviour
     }
     public void PlaySoundOneShot(AudioClip clip)
     {
-
+        Aud.PlayOneShot(clip);
     }
 }
